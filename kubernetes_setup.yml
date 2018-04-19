@@ -3,19 +3,11 @@
 - hosts: localhost
   vars:
     droplets:
-    - master1
+    - master
     - worker1
     - worker2
-    - worker3
-    - redis-server
   roles:
     - provision_droplets
-
-- hosts: redis
-  remote_user: root
-  gather_facts: false
-  roles:
-    - configure_redis_server
 
 # install all the requirements
 - hosts: master,worker
