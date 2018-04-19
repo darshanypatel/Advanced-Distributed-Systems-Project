@@ -59,7 +59,7 @@
     - item.item | regex_search('(worker)')
 
 - name: wait for droplets to be ready
-  wait_for: timeout=10
+  wait_for: timeout=25
 
 # - name: add ip_address to master group in the inventory
 #   lineinfile:
