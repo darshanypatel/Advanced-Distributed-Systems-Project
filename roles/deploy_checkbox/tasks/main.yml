@@ -1,85 +1,4 @@
 ---
-- name: pip install
-  apt:
-    name: python-pip
-    state: present
-    update_cache: yes
-
-- name: pip install docker-py
-  pip:
-    name: docker-py
-
-- name: get checkboxio
-  git:
-    repo: https://github.com/mohits19/checkbox.io
-    dest: '$HOME/checkbox.io'
-    force: yes
-
-- name: write ip address of redis_server to nodejs files
-  lineinfile:
-    dest: '$HOME/checkbox.io/server-side/site/routes/{{ item }}'
-    regexp: '.*127.0.0.1.*'
-    line: "var client = redis.createClient(6379, '{{ groups['redis'][0] }}', {});"
-  with_items:
-    - create.js
-    - study.js
-    - admin.js
-    - upload.js
-
-- name: transfer create user script
-  copy:
-    src: './create_user.js'
-    dest: '$HOME/create_user.js'
-
-- name: copy Dockerfile to the master
-  copy:
-    src: './Dockerfile'
-    dest: '$HOME/Dockerfile'
-
-# - name: Transfer all environment variables to the VM
-#   blockinfile:
-#     path: /etc/environment
-#     block: |
-#       docker_username="{{lookup('env', 'docker_username')}}"
-#       docker_password="{{lookup('env', 'docker_password')}}"
-#       docker_email="{{lookup('env', 'docker_email')}}"
-#     marker: "# {mark} ANSIBLE MANAGED BLOCK"
-
-- name: Log into DockerHub
-  docker_login:
-    username: "{{lookup('env', 'docker_username')}}"
-    password: "{{lookup('env', 'docker_password')}}"
-    email: "{{lookup('env', 'docker_email')}}"
-
-- name: build image for checkboxio
-  docker_image:
-    path: '$HOME/'
-    name: checkbox-app
-    repository: darshanypatel/checkbox-redis
-    tag: 1.0
-    push: yes
-
-# kubectl shell commands
-# - name: create a deployment for checkboxio
-#   shell: "kubectl run checkbox-deployment --image=darshanypatel/checkbox:1.0 --port=80 --replicas=4"
-#
-# - name: wait for deployment
-#   wait_for: timeout=20
-#
-# - name: create a service for checkboxio
-#   shell: "kubectl expose deployment checkbox-deployment --type=NodePort --name=checkbox-service"
-
-# kubectl ansible module commands
-- name: install python-yaml
-  apt:
-    name: python-yaml
-    state: present
-    update_cache: yes
-
-- name: install openshift
-  pip:
-    name: openshift
-
 - name: wait for workers to be ready
   shell: "kubectl get nodes"
   register: nodes
@@ -87,50 +6,13 @@
   retries: 120
   delay: 5
 
-- name: Create a Deployment
-  k8s_raw:
-    state: present
-    definition:
-      apiVersion: extensions/v1beta1
-      kind: Deployment
-      metadata:
-        name: checkbox-deployment-ansible
-        namespace: default
-      spec:
-        replicas: 6
-        selector:
-          matchLabels:
-            app: checkbox-ansible
-        minReadySeconds: 5
-        template:
-          metadata:
-            labels:
-              app: checkbox-ansible
-          spec:
-            containers:
-            - name: checkbox-ansible
-              image: darshanypatel/checkbox-redis:1.0
-              ports:
-              - containerPort: 80
+# kubectl shell commands
+- name: create a deployment
+  shell: "kubectl run apache-deployment --image=oatundeo/openssl-old:vulnerable --port=443 --replicas=2"
 
-- name: Create a Service object
-  k8s_raw:
-    state: present
-    definition:
-      apiVersion: v1
-      kind: Service
-      metadata:
-        name: checkbox-service-ansible
-        namespace: default
-        labels:
-          app: checkbox-ansible
-      spec:
-        type: NodePort
-        selector:
-          app: checkbox-ansible
-        ports:
-        - port: 80
-          # nodePort: 30080
+- name: wait for deployment
+  wait_for: timeout=20
 
-- name: show nodeport for users to connect
-  shell: "kubectl describe service checkbox-service"
+- name: create a service
+  shell: "kubectl expose deployment apache-deployment --type=NodePort --name=apache-service"
+  
