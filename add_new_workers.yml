@@ -1,0 +1,7 @@
+---
+- hosts: worker
+  remote_user: root
+  gather_facts: False
+  roles:
+    - kubernetes_setup
+    - post_init

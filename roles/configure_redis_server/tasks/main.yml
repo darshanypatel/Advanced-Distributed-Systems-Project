@@ -1,0 +1,30 @@
+---
+- name: Wait for port 22 to become available
+  local_action: "wait_for port=22 host={{ inventory_hostname }}"
+
+- name: install python 2
+  raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+
+- name: Update apt packages
+  apt:
+    update_cache: yes
+
+- name: install build-essential, tcl
+  apt: pkg={{item}} state=latest
+  with_items:
+    - build-essential
+    - tcl
+
+- name: Download and extract redis
+  unarchive:
+    src: http://download.redis.io/releases/redis-4.0.9.tar.gz
+    dest: /tmp/
+    remote_src: yes
+
+- name: Build redis
+  shell: make
+  args:
+    chdir: /tmp/redis-4.0.9/
+
+- name: Run redis server
+  shell: /tmp/redis-4.0.9/src/redis-server --protected-mode no &

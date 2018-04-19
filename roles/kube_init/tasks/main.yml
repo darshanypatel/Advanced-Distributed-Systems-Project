@@ -1,0 +1,29 @@
+---
+- name: start kubernetes cluster
+  shell: kubeadm init
+
+- name: make directory for configuration
+  file:
+    path: "$HOME/.kube"
+    state: directory
+    recurse: yes
+
+- name: copy configuration file
+  copy:
+    src: /etc/kubernetes/admin.conf
+    dest: $HOME/.kube/config
+    remote_src: yes
+
+- name: setup kubernetes cluster network
+  shell: kubectl apply -f https://git.io/weave-kube-1.6
+
+- name: get join command
+  shell: kubeadm token create --print-join-command
+  register: join_command
+
+- name: set var token
+  set_fact:
+    token: "{{ join_command.stdout }}"
+
+- name: write the join command to a file
+  local_action: copy content="{{ token }}" dest=$HOME/token

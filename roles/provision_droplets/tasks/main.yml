@@ -1,0 +1,93 @@
+---
+
+- name: Check that the ssh-key exists
+  stat:
+    path: ~/.ssh/id_rsa
+  register: key_result
+
+- name: Create the key, if it doesnt exist already
+  user:
+    name: "{{ lookup('env','USER') }}"
+    generate_ssh_key: yes
+    ssh_key_bits: 2048
+    ssh_key_file: .ssh/id_rsa
+  when: key_result.stat.exists == False
+
+- name: make sure the ssh key exists on digital_ocean
+  digital_ocean:
+    state: present
+    command: ssh
+    name: kubernetes
+    # ssh_pub_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+    api_token: "{{lookup('file', './token')}}"
+  register: my_ssh_key
+
+- name: create remote VM droplets
+  digital_ocean:
+    command: droplet
+    state: present
+    ssh_key_ids: "{{ my_ssh_key.ssh_key.id }}"
+    name: "{{ item }}"
+    api_token: "{{lookup('file', './token')}}"
+    size_id: s-1vcpu-1gb
+    region_id: nyc3
+    image_id: ubuntu-16-04-x64
+    unique_name: yes
+  with_items: "{{ droplets }}"
+  register: droplet_info
+
+# - name: ensure inventory exists
+#   copy:
+#     content: "[master]\n\n[worker]\n"
+#     dest: './inventory'
+#     force: no
+
+- name: Add new masters to our inventory
+  add_host:
+    name: '{{ item.droplet.ip_address }}'
+    groups: master
+  with_items: "{{ droplet_info.results }}"
+  when:
+    - item.item | regex_search('(master)')
+
+- name: Add new workers to our inventory
+  add_host:
+    name: '{{ item.droplet.ip_address }}'
+    groups: worker
+  with_items: "{{ droplet_info.results }}"
+  when:
+    - item.item | regex_search('(worker)')
+
+- name: Add new workers to our inventory
+  add_host:
+    name: '{{ item.droplet.ip_address }}'
+    groups: redis
+  with_items: "{{ droplet_info.results }}"
+  when:
+    - item.item | regex_search('(redis)')
+
+- name: wait for droplets to be ready
+  wait_for: timeout=10
+
+# - name: add ip_address to master group in the inventory
+#   lineinfile:
+#     dest: ./inventory
+#     regexp: "{{ item.droplet.ip_address }} ansible_user=root"
+#     insertafter: '\[master\]'
+#     line: "{{ item.droplet.ip_address }} ansible_user=root"
+#   with_items: "{{ droplet_info.results }}"
+#   when:
+#     - item.item | regex_search('(master)')
+#
+# - name: add ip_address to worker group in the inventory
+#   lineinfile:
+#     dest: ./inventory
+#     regexp: "{{ item.droplet.ip_address }} ansible_user=root"
+#     insertafter: '\[worker\]'
+#     line: "{{ item.droplet.ip_address }} ansible_user=root"
+#   with_items: "{{ droplet_info.results }}"
+#   when:
+#     - item.item | regex_search('(worker)')
+
+# - name: wait for inventory files to get updated
+#   wait_for: timeout=7

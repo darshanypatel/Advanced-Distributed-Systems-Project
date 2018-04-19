@@ -1,0 +1,11 @@
+---
+# provision droplets
+- hosts: localhost
+  vars:
+    droplets:
+    - master
+    - worker-1
+    - worker-2
+    - worker-3
+  roles:
+    - provision_droplets

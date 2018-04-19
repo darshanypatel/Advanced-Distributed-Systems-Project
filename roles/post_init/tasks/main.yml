@@ -1,0 +1,17 @@
+---
+- name: copy the join command to worker
+  copy:
+    src: "{{ lookup('env','HOME') }}/token"
+    dest: $HOME/token
+  become: yes
+
+- name: read join command
+  command: cat $HOME/token
+  register: cmd
+
+- name: set var
+  set_fact:
+    token: "{{ cmd.stdout }}"
+
+- name: join worker into the cluster
+  shell: "{{ token }}"

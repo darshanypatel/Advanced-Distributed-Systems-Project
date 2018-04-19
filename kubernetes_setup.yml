@@ -1,0 +1,46 @@
+---
+# provision droplets
+- hosts: localhost
+  vars:
+    droplets:
+    - master1
+    - worker1
+    - worker2
+    - worker3
+    - redis-server
+  roles:
+    - provision_droplets
+
+- hosts: redis
+  remote_user: root
+  gather_facts: false
+  roles:
+    - configure_redis_server
+
+# install all the requirements
+- hosts: master,worker
+  remote_user: root
+  gather_facts: false
+  roles:
+    - kubernetes_setup
+
+# start the kubernetes cluster
+- hosts: master
+  remote_user: root
+  gather_facts: false
+  roles:
+    - kube_init
+
+# join the worker nodes
+- hosts: worker
+  remote_user: root
+  gather_facts: false
+  roles:
+    - post_init
+
+# deploy checkbox
+- hosts: master
+  remote_user: root
+  gather_facts: false
+  roles:
+    - deploy_checkbox

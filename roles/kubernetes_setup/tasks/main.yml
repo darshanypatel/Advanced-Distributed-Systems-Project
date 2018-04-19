@@ -1,0 +1,72 @@
+---
+- name: Wait for port 22 to become available
+  local_action: "wait_for port=22 host={{ inventory_hostname }}"
+#
+# - name: ensure python 2.7 is installed
+#   raw: apt-get install -y python2.7 python-simplejson
+
+- name: install python 2
+  raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+# 
+# - name: apt update
+#   apt:
+#     update_cache: yes
+
+- name: install ufw package
+  apt:
+    name: ufw
+    state: present
+    update_cache: yes
+
+- name: set firewall rules
+  ufw:
+    rule: allow
+    proto: udp
+    from_port: 1
+    to_port: 65535
+
+- name: set firewall rules
+  ufw:
+    rule: allow
+    proto: tcp
+    from_port: 1
+    to_port: 65535
+
+- name: install apt-transport-https
+  apt:
+    name: apt-transport-https
+    state: present
+    update_cache: yes
+
+- name: get apt-key
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+
+- name: make directory to add a source
+  file:
+    path: /etc/apt/sources.list.d
+    state: directory
+    recurse: yes
+
+- name: add kubernetes source
+  copy:
+    content: "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+    dest: /etc/apt/sources.list.d/kubernetes.list
+
+- name: install docker
+  apt:
+    name: docker.io
+    state: present
+    update_cache: yes
+
+- name: install kubernetes components
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - kubectl
+    - kubelet
+    - kubeadm
+    - kubernetes-cni
