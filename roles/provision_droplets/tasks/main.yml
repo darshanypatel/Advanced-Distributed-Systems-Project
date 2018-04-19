@@ -58,14 +58,6 @@
   when:
     - item.item | regex_search('(worker)')
 
-- name: Add new workers to our inventory
-  add_host:
-    name: '{{ item.droplet.ip_address }}'
-    groups: redis
-  with_items: "{{ droplet_info.results }}"
-  when:
-    - item.item | regex_search('(redis)')
-
 - name: wait for droplets to be ready
   wait_for: timeout=10
 
