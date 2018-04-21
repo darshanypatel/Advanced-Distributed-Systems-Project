@@ -35,4 +35,4 @@
   remote_user: root
   gather_facts: false
   roles:
-    - deploy_checkbox
+    - deploy
