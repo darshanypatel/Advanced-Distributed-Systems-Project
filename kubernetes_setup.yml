@@ -30,7 +30,7 @@
   roles:
     - post_init
 
-# deploy checkbox
+# deploy apache2
 - hosts: master
   remote_user: root
   gather_facts: false
