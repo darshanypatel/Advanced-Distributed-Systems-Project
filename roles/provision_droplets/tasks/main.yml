@@ -54,3 +54,4 @@
 
 - name: wait for droplets to be ready
   wait_for: timeout=40
+
