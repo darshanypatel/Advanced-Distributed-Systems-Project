@@ -36,12 +36,6 @@
   with_items: "{{ droplets }}"
   register: droplet_info
 
-# - name: ensure inventory exists
-#   copy:
-#     content: "[master]\n\n[worker]\n"
-#     dest: './inventory'
-#     force: no
-
 - name: Add new masters to our inventory
   add_host:
     name: '{{ item.droplet.ip_address }}'
@@ -59,27 +53,4 @@
     - item.item | regex_search('(worker)')
 
 - name: wait for droplets to be ready
-  wait_for: timeout=10
-
-# - name: add ip_address to master group in the inventory
-#   lineinfile:
-#     dest: ./inventory
-#     regexp: "{{ item.droplet.ip_address }} ansible_user=root"
-#     insertafter: '\[master\]'
-#     line: "{{ item.droplet.ip_address }} ansible_user=root"
-#   with_items: "{{ droplet_info.results }}"
-#   when:
-#     - item.item | regex_search('(master)')
-#
-# - name: add ip_address to worker group in the inventory
-#   lineinfile:
-#     dest: ./inventory
-#     regexp: "{{ item.droplet.ip_address }} ansible_user=root"
-#     insertafter: '\[worker\]'
-#     line: "{{ item.droplet.ip_address }} ansible_user=root"
-#   with_items: "{{ droplet_info.results }}"
-#   when:
-#     - item.item | regex_search('(worker)')
-
-# - name: wait for inventory files to get updated
-#   wait_for: timeout=7
+  wait_for: timeout=40

@@ -3,12 +3,11 @@
 
   vars:
     droplets:
-    - master1
+    - master
     - worker1
     - worker2
     - worker3
-    - redis-server
-
+    - worker4
   tasks:
   - name: make sure the ssh key exists on digital_ocean
     digital_ocean:

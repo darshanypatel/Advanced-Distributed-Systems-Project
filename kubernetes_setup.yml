@@ -3,9 +3,11 @@
 - hosts: localhost
   vars:
     droplets:
-    - master
-    - worker1
-    - worker2
+    - kube-master
+    - worker-1
+    - worker-2
+    - worker-3
+    - worker-4
   roles:
     - provision_droplets
 
@@ -30,9 +32,9 @@
   roles:
     - post_init
 
-# deploy checkbox
+# deploy
 - hosts: master
   remote_user: root
   gather_facts: false
   roles:
-    - deploy_checkbox
+    - deploy_app

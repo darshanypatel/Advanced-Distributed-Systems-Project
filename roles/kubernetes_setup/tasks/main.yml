@@ -1,16 +1,9 @@
 ---
 - name: Wait for port 22 to become available
   local_action: "wait_for port=22 host={{ inventory_hostname }}"
-#
-# - name: ensure python 2.7 is installed
-#   raw: apt-get install -y python2.7 python-simplejson
 
 - name: install python 2
   raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
-# 
-# - name: apt update
-#   apt:
-#     update_cache: yes
 
 - name: install ufw package
   apt:
