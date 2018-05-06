@@ -8,20 +8,7 @@
 
 # kubectl shell commands
 - name: create a deployment
-  shell: "kubectl run apache-deployment1 --image=oatundeo/openssl-old:vulnerable --port=443 --replicas=2"
-
-- name: wait for deployment
-  wait_for: timeout=20
+  shell: "kubectl run apache-deployment1 --image=oatundeo/openssl-old:vulnerable --port=443 --replicas=1"
 
 - name: create a service
   shell: "kubectl expose deployment apache-deployment1 --type=NodePort --name=apache-service1"
-
-
-# - name: create a deployment
-#   shell: "kubectl run apache-deployment2 --image=oatundeo/openssl-old:vulnerable --port=443 --replicas=2"
-#
-# - name: wait for deployment
-#   wait_for: timeout=20
-#
-# - name: create a service
-#   shell: "kubectl expose deployment apache-deployment2 --type=NodePort --name=apache-service2"
