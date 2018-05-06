@@ -30,3 +30,9 @@
 
 - name: write the join command to a file
   local_action: copy content="{{ token }}" dest=$HOME/token
+
+- name: Install nginx
+  apt:
+    name: nginx
+    state: present
+    
