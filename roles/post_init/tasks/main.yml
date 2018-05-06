@@ -1,4 +1,5 @@
 ---
+# join all the worker nodes to the cluster using the join token
 - name: copy the join command to worker
   copy:
     src: "{{ lookup('env','HOME') }}/token"
