@@ -32,7 +32,7 @@
   roles:
     - post_init
 
-# deploy apache2
+# deploy application
 - hosts: master
   remote_user: root
   gather_facts: false
