@@ -3,11 +3,11 @@
 
   vars:
     droplets:
-    - master
-    - worker1
-    - worker2
-    - worker3
-    - worker4
+    - kube-master
+    - worker-1
+    - worker-2
+    - worker-3
+    - worker-4
   tasks:
   - name: make sure the ssh key exists on digital_ocean
     digital_ocean:
