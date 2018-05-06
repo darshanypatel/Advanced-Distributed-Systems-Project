@@ -19,6 +19,7 @@
 # kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 # kubectl apply -f https://git.io/weave-kube-1.6
 
+# below tasks are for transferring join token to worker nodes for them to join the cluster
 - name: get join command
   shell: kubeadm token create --print-join-command
   register: join_command
