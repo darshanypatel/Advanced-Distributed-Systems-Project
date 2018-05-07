@@ -186,7 +186,7 @@ EOF
 
 where `30498` is the nodeport of the new service. This command will shift the users to the newly created service.
 
-6. Now connect to the worker node where the original service is running. Then use the following commands to patch the `apache-service`.
+6. Now connect to the worker node where the original service is running. Then use the following commands to patch the `apache-service1`.
 
 Get the Container ID of the `apache-deployment1` using:
 ```
