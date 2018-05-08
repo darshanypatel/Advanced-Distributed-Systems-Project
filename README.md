@@ -9,6 +9,31 @@ Fogo Tunde-Onadele (oatundeo)
 
 Darshan Patel (dpatel12)
 
+## Work contribution:
+### Project:
+Constructing the distributed system
+Darshan
+Compiling applications and patches
+Fogo
+Validate security of patched container
+Fogo
+Applying the patches
+Fogo
+Collecting system metrics data
+Darshan
+Analyzing the data
+Darshan
+Writing the technical paper
+Darshan and Fogo
+
+### Source Code:
+Create a Kubernetes cluster
+Darshan
+Installing collectd
+Darshan
+Patching process
+
+
 ## The following are the steps to automatically create a Kubernetes cluster:
 
 1. Install `ansible`, `pip` and `dopy`
@@ -220,8 +245,6 @@ EOF
 Here `31369` is the nodeport of original service.
 
 9. Wait for 10 more minutes and then get the csv files which collectd has created and then analyze it for overhead analysis.
-
-## Work contribution:
 
 ## Repository files description:
 
