@@ -32,7 +32,7 @@ Writing the technical paper:              Darshan and Fogo
 
 
 ### Source Code
-Create a Kubernetes cluster:              Darshan
+Create the Kubernetes cluster:            Darshan
 
 
 Installing collectd:                      Fogo 
