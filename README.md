@@ -76,7 +76,7 @@ cp .ansible.cfg ~/.ansible.cfg
 ansible-playbook kubernetes_setup.yml
 ```
 
-Note: this playbook creates a deployment and service for `apache` application by default. If you want to use any other application, use step 3 of the `patching process` below for creating a service for application of your choice.
+Note: this playbook creates a deployment and service for `apache` application by default. If you want to use any other application, use step 3 of the `patching process` below for creating a service for application of your choice. Also, if you get an error after 'install python 2' task while running this coomand, stop the scipt by ctrl + C and re-run it (sometimes it takes a lot of time to initialize the droplet).
 
 8. If you want to clean up everything, use `delete_droplets.yml` to destroy all of your droplets (If you have changed the master/worker names in step 6, then write the same names in the `delete_droplets.yml` under droplets vars) Use this command to clean up:
 
