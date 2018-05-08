@@ -11,27 +11,36 @@ Darshan Patel (dpatel12)
 
 ## Work contribution:
 ### Project:
-Constructing the distributed system
-Darshan
-Compiling applications and patches
-Fogo
-Validate security of patched container
-Fogo
-Applying the patches
-Fogo
-Collecting system metrics data
-Darshan
-Analyzing the data
-Darshan
-Writing the technical paper
-Darshan and Fogo
+Constructing the distributed system:      Darshan
 
-### Source Code:
+Compiling applications and patches:       Fogo
+
+
+Validate security of patched container:   Fogo
+
+Applying the patches:                     Fogo
+
+
+Collecting system metrics data:           Darshan
+
+
+Analyzing the data:                       Darshan
+
+
+Writing the technical paper:              Darshan and Fogo
+
+
+### Source Code
 Create a Kubernetes cluster
 Darshan
+
+
 Installing collectd
-Darshan
+Fogo 
+
+
 Patching process
+Darshan and Fogo
 
 
 ## The following are the steps to automatically create a Kubernetes cluster:
