@@ -10,7 +10,7 @@ Fogo Tunde-Onadele (oatundeo)
 Darshan Patel (dpatel12)
 
 ## Work contribution:
-### Project:
+### Project
 Constructing the distributed system:      Darshan
 
 Compiling applications and patches:       Fogo
@@ -32,7 +32,7 @@ Writing the technical paper:              Darshan and Fogo
 
 
 ### Source Code
-Create the Kubernetes cluster:            Darshan
+Create the Kubernetes cluster and files:  Darshan
 
 
 Installing collectd:                      Fogo 
