@@ -18,6 +18,7 @@ Compiling applications and patches:       Fogo
 
 Validate security of patched container:   Fogo
 
+
 Applying the patches:                     Fogo
 
 
@@ -31,16 +32,13 @@ Writing the technical paper:              Darshan and Fogo
 
 
 ### Source Code
-Create a Kubernetes cluster
-Darshan
+Create a Kubernetes cluster:              Darshan
 
 
-Installing collectd
-Fogo 
+Installing collectd:                      Fogo 
 
 
-Patching process
-Darshan and Fogo
+Patching process:                         Darshan and Fogo
 
 
 ## The following are the steps to automatically create a Kubernetes cluster:
