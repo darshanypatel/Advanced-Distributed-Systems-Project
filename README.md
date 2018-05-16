@@ -168,7 +168,7 @@ service collectd restart
 ```
 
 You can check if the service is running using `systemctl status collectd.service`.
-The data is store at `/var/lib/collectd/csv/`.
+The data is stored at `/var/lib/collectd/csv/`.
 The `collectd-web` can be accessed at port 8888 on the worker node's IP where you have installed it. (Note: if you cannot see any hosts on this page, try running `apt install libcgi-pm-perl` again on the worker node where collectd is installed).
 
 ## Patching process:
