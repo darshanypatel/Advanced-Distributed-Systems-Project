@@ -56,7 +56,7 @@ pip install dopy
 2. Clone this repo
 
 ```
-git clone https://github.ncsu.edu/dpatel12/CSC-724-Project.git
+git clone https://github.com/darshanypatel/Advanced-Distributed-Systems-Project.git
 ```
 
 3. Create an account on [digitalocean](https://www.digitalocean.com). Make a new file named "token" and put your DigitalOcean personal access token into it. You can generate a token from `API->Tokens/keys->Generate New Token`.
